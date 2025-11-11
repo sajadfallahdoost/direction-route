@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  osrm:
+    image: osrm/osrm-backend:latest
+    container_name: osrm
+    command: >
+      osrm-routed
+      --algorithm mld
+      /data/iran.osrm
+    volumes:
+      - ./osrm/data:/data
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+
+  django:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: django
+    env_file:
+      - ./backend/.env
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - osrm
+    command: >
+      sh -c "pip install -r requirements.txt && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+
+
