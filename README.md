@@ -33,21 +33,18 @@ cd osrm
 mkdir -p data
 curl -L https://download.geofabrik.de/asia/iran-latest.osm.pbf -o data/iran.osm.pbf
 
-# Disable Git Bash path conversion for docker args
+# 1) Disable Git Bash path conversion for this shell
 export MSYS_NO_PATHCONV=1
 export MSYS2_ARG_CONV_EXCL="*"
 
-# Use dynamic absolute Windows path for the volume
-# This converts Git Bash path to Windows-style and normalizes slashes
-PROJECT_ROOT_WIN=$(pwd -W | sed 's#\\#/#g')
-
-docker run --rm -t -v "$PROJECT_ROOT_WIN/osrm/data:/data" osrm/osrm-backend:latest \
+# 2) Use absolute Windows path for the mount (-v)
+docker run --rm -t -v "/d/code/route/osrm/data:/data" osrm/osrm-backend:latest \
   osrm-extract -p /opt/car.lua /data/iran.osm.pbf
 
-docker run --rm -t -v "$PROJECT_ROOT_WIN/osrm/data:/data" osrm/osrm-backend:latest \
+docker run --rm -t -v "/d/code/route/osrm/data:/data" osrm/osrm-backend:latest \
   osrm-partition /data/iran.osrm
 
-docker run --rm -t -v "$PROJECT_ROOT_WIN/osrm/data:/data" osrm/osrm-backend:latest \
+docker run --rm -t -v "/d/code/route/osrm/data:/data" osrm/osrm-backend:latest \
   osrm-customize /data/iran.osrm
 
 cd ..
