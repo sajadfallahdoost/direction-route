@@ -28,6 +28,10 @@ let destinationCoord = null;
 async function geocode(q) {
 	const r = await fetch(`/api/geocode?q=${encodeURIComponent(q)}`);
 	const data = await r.json();
+	if (data.error) {
+		alert(`Geocoding failed: ${data.error}`);
+		return [];
+	}
 	const results = data.results || [];
 	return results.map(r => ({
 		display_name: r.display_name,

@@ -21,6 +21,7 @@ NOMINATIM_BASE_URL=https://nominatim.openstreetmap.org
 HTTP_TIMEOUT_S=10
 CACHE_TTL_S=300
 USER_AGENT="route-app/1.0 (contact: your-email@example.com)"
+NOMINATIM_EMAIL=your-email@example.com
 EOF
 ```
 
@@ -92,6 +93,7 @@ Environment variables (see `backend/backend/settings.py`):
 - `OSRM_BASE_URL` (default `http://osrm:5000`)
 - `NOMINATIM_BASE_URL` (default `https://nominatim.openstreetmap.org`)
 - `USER_AGENT` (please set to your contact for Nominatim usage policy)
+- `NOMINATIM_EMAIL` (optional but recommended when calling the public Nominatim instance)
 
 Optional (timeouts, cache TTL, etc.) can be set via `.env` in `backend/`.
 
@@ -114,7 +116,7 @@ pytest -q
 
 ## Notes
 - OSRM data will be stored in `osrm/data`. Re-run `make all` to refresh.
-- Respect Nominatim's usage policy: add a valid `USER_AGENT` and avoid aggressive polling.
+- Respect Nominatim's usage policy: add a valid `USER_AGENT`, set `NOMINATIM_EMAIL`, and avoid aggressive polling or consider hosting your own Nominatim instance.
 
 ### Optional: Using make (if installed)
 If you have GNU Make, you can simplify step 2:

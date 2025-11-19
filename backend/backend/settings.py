@@ -17,6 +17,8 @@ INSTALLED_APPS = [
 	'django.contrib.sessions',
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
+	'rest_framework',
+	'drf_spectacular',
 	'routing',
 ]
 
@@ -73,8 +75,29 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # External services
 OSRM_BASE_URL = os.environ.get("OSRM_BASE_URL", "http://osrm:5000")
 NOMINATIM_BASE_URL = os.environ.get("NOMINATIM_BASE_URL", "https://nominatim.openstreetmap.org")
+NOMINATIM_EMAIL = os.environ.get("NOMINATIM_EMAIL", "")
 HTTP_TIMEOUT_S = float(os.environ.get("HTTP_TIMEOUT_S", "10"))
 CACHE_TTL_S = int(os.environ.get("CACHE_TTL_S", "300"))
 USER_AGENT = os.environ.get("USER_AGENT", "route-app/1.0 (contact: youremail@example.com)")
+
+# Django REST Framework settings
+REST_FRAMEWORK = {
+	'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+	'DEFAULT_RENDERER_CLASSES': [
+		'rest_framework.renderers.JSONRenderer',
+	],
+	'DEFAULT_PARSER_CLASSES': [
+		'rest_framework.parsers.JSONParser',
+	],
+}
+
+# drf-spectacular settings
+SPECTACULAR_SETTINGS = {
+	'TITLE': 'Routing API',
+	'DESCRIPTION': 'API for geocoding and routing using OSRM and Nominatim',
+	'VERSION': '1.0.0',
+	'SERVE_INCLUDE_SCHEMA': False,
+	'SCHEMA_PATH_PREFIX': '/api/',
+}
 
 
