@@ -81,12 +81,13 @@ docker compose up -d django
 
 Visit `http://localhost:8000`.
 
-- Type an origin (e.g., "Tehran Sa'adat Abad") and destination (e.g., "Azadi Tower").
-- Click Route to see the path, distance and duration.
+- Type an origin (e.g., 'Tehran Sa'adat Abad') and four destinations (e.g., four delivery stops).
+- Click **Rank destinations** to calculate OSRM distances and view the ordered list (nearest -> farthest) with distance/time.
 
 ## Endpoints
-- `GET /api/geocode?q=...&limit=5` → uses Nominatim to return candidates
-- `GET /api/route?origin=lat,lon&destination=lat,lon&profile=car&overview=full` → queries OSRM and returns GeoJSON route and summary
+- `GET /api/geocode?q=...&limit=5` - uses Nominatim to return candidates
+- `GET /api/route?origin=lat,lon&destination=lat,lon&profile=car&overview=full` - queries OSRM and returns GeoJSON route and summary
+- `POST /api/rank-destinations` - accepts an origin plus four destinations and responds with the ranking (distance + duration) derived from OSRM routes.
 
 ## Configuration
 Environment variables (see `backend/backend/settings.py`):
@@ -122,6 +123,6 @@ pytest -q
 If you have GNU Make, you can simplify step 2:
 ```bash
 cd osrm
-make all   # download → extract → partition → customize
+make all   # download + extract + partition + customize
 cd ..
 ```

@@ -1,24 +1,134 @@
 <!doctype html>
-<html lang="en">
+<html lang="fa" dir="rtl">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Routing Demo</title>
+	<title>سیستم مسیریابی هوشمند</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v9.2.4/ol.css">
 	<link rel="stylesheet" href="/static/styles.css">
-	</head>
+</head>
 <body>
-<div class="toolbar">
-	<input id="origin" type="text" placeholder="Origin (e.g., Tehran, Sa'adat Abad)">
-	<input id="destination" type="text" placeholder="Destination (e.g., Azadi Tower)">
-	<button id="routeBtn">Route</button>
-	<span id="summary"></span>
+<div class="container">
+	<header class="header">
+		<h1 class="title">🗺️ سیستم مسیریابی هوشمند</h1>
+		<p class="subtitle">مسیریابی بهینه به مقصدهای مختلف</p>
+	</header>
+	
+	<div class="content">
+		<div class="sidebar">
+			<div class="input-section">
+				<div class="form-group">
+					<label for="origin" class="label">
+						<span class="label-icon">📍</span>
+						<span class="label-text">مبدأ (محل شروع)</span>
+					</label>
+					<input 
+						id="origin" 
+						type="text" 
+						class="input" 
+						placeholder="مثال: میرداماد، تهران یا نام خیابان"
+						autocomplete="off"
+					>
+					<div class="input-helper">نام محله، خیابان یا نقطه‌ای در تهران را وارد کنید</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="label">
+						<span class="label-icon">🎯</span>
+						<span class="label-text">مقصدها (۴ نقطه)</span>
+					</label>
+					<div class="destinations-grid">
+						<input 
+							id="destination1" 
+							data-destination-input 
+							type="text" 
+							class="input" 
+							placeholder="مقصد اول"
+							autocomplete="off"
+						>
+						<input 
+							id="destination2" 
+							data-destination-input 
+							type="text" 
+							class="input" 
+							placeholder="مقصد دوم"
+							autocomplete="off"
+						>
+						<input 
+							id="destination3" 
+							data-destination-input 
+							type="text" 
+							class="input" 
+							placeholder="مقصد سوم"
+							autocomplete="off"
+						>
+						<input 
+							id="destination4" 
+							data-destination-input 
+							type="text" 
+							class="input" 
+							placeholder="مقصد چهارم"
+							autocomplete="off"
+						>
+					</div>
+					<div class="input-helper">مکان‌هایی که می‌خواهید بازدید کنید را وارد نمایید</div>
+				</div>
+				
+				<button id="rankBtn" class="btn-primary">
+					<span class="btn-icon">🚗</span>
+					<span class="btn-text">محاسبه بهترین مسیر</span>
+				</button>
+				
+				<div id="statusMessage" class="status-message"></div>
+			</div>
+			
+			<div id="rankingPanel" class="ranking-panel" style="display: none;">
+				<h2 class="panel-title">
+					<span class="panel-icon">🎯</span>
+					مسیر بهینه (الگوریتم TSP)
+				</h2>
+				<p class="panel-subtitle">بهترین ترتیب بازدید برای کمترین مسافت کل</p>
+				<ol id="rankingList" class="ranking-list"></ol>
+			</div>
+		</div>
+		
+		<div class="map-container">
+			<div id="map" class="map"></div>
+			<div class="map-legend">
+				<div class="legend-item">
+					<span class="legend-marker origin-marker"></span>
+					<span>مبدأ</span>
+				</div>
+				<div class="legend-item">
+					<span class="legend-marker rank-1"></span>
+					<span>ایستگاه ۱ (اول)</span>
+				</div>
+				<div class="legend-item">
+					<span class="legend-marker rank-2"></span>
+					<span>ایستگاه ۲ (دوم)</span>
+				</div>
+				<div class="legend-item">
+					<span class="legend-marker rank-3"></span>
+					<span>ایستگاه ۳ (سوم)</span>
+				</div>
+				<div class="legend-item">
+					<span class="legend-marker rank-4"></span>
+					<span>ایستگاه ۴ (چهارم)</span>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
-<div id="map" class="map"></div>
+
+<div id="loadingOverlay" class="loading-overlay" style="display: none;">
+	<div class="loading-spinner"></div>
+	<p class="loading-text">در حال محاسبه بهترین مسیرها...</p>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/ol@v9.2.4/dist/ol.js"></script>
 <script src="/static/app.js"></script>
 </body>
 </html>
-
-
